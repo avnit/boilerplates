@@ -16,23 +16,28 @@ variable "cloudflare_zone_id" {
     type = string
 }
 variable "dns_record_name" {
-    description = "The name of the DNS record you want to create"
-    type = map(string)
+    description = "Map of DNS records to create, keyed by a short label"
+    type = map(object({
+        name    = string
+        value   = string
+        type    = string
+        ttl     = number
+        proxied = bool
+    }))
     # default = {
-    #     ubuntu  = {
-    #         name = "ubuntu"
-    #         value = "192.168.68.65:8080"
-    #         type = "A"
-    #         ttl = 1
+    #     ubuntu = {
+    #         name    = "ubuntu"
+    #         value   = "192.168.0.185:81"
+    #         type    = "A"
+    #         ttl     = 1
     #         proxied = true
     #     }
-    #     jellyfyn  = {
-    #         name = "jellyfyn"
-    #         value = ""
-    #         type = "A"
-    #         ttl = 1
+    #     jellyfin = {
+    #         name    = "jellyfin"
+    #         value   = "192.168.0.17:8096"
+    #         type    = "A"
+    #         ttl     = 1
     #         proxied = true
-    #     }            
-    
-    
+    #     }
+    # }
 }
