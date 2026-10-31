@@ -32,3 +32,11 @@ dist/
 
 # Test outputs
 config.yaml
+
+# Terraform: local state, provider binaries, lock info and variable files with credentials
+**/.terraform/
+**/*.tfstate
+**/*.tfstate.*
+**/.terraform.tfstate.lock.info
+**/*.tfvars
+!**/*.tfvars.example
