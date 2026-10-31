@@ -1,28 +1,64 @@
-# Welcome to contributing at The Digital Life.🤝
+# Contributing
 
-- Products continuously change over time, specially those that are in high demand.
+## Local setup
 
-- Although I do my best to keep up with the latest changes and releases, but if you find something that needs to update, please contribute.
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+python3 -m pip install --upgrade pip
+python3 -m pip install -e ".[test]" ruff
+```
 
-- If you’d like to contribute to this project, reach out to me on social media or [Discord](https://christianlempa.de/discord), or create a pull request for the necessary changes.
+## Running the CLI
 
-## Project overview
+```bash
+python3 -m cli
+python3 -m cli --log-level DEBUG compose list
+```
 
-To get an overview of the project, read the [README](https://github.com/ChristianLempa/boilerplates#readme).
+## Validation gates
 
-## Issues
+Run the relevant checks before finishing changes. These are release gates, not optional cleanup.
 
-### Create a new issue
+```bash
+ruff check --fix .
+ruff format .
+python3 -m pytest
+```
 
-If you spot a problem with the templates, search if that issue already exists.
-If a relevant issue doesn't exist, you can open a new issue in the issue's tab.
+If `ruff` is not installed in the active environment, install it before running the gates.
 
-### Solve an issue
+For production-like boilerplate testing before a release, see `WARP-LOCAL.md` if it exists locally. It is intentionally not tracked in git and may describe local Docker contexts, test servers, and release-readiness checklists.
 
-Search through the existing issues to find one that interests you. You can refine the search using labels as filters.
-Once you find an issue to work on, you are welcome to open a PR with a fix.
+## GitHub workflow
 
-## Your PR is merged
+This repository uses GitHub issues, branches, pull requests, and releases.
 
-Once reviewed and accepted, your PR would be merged and available publicly.
-Congratulations 🎉🎉 and thank you for playing your part ✨.
+Before GitHub-facing work such as issues, branches, PRs, merges, tags, or releases, read:
+
+- `AGENTS.md`
+- this contribution guide
+- `RELEASE.md` for release-related work
+
+## Naming conventions
+
+- Branches and PRs: `feature/2314-add-feature`, `problem/1249-fix-bug`, `release/x.x.x`
+- Commit messages: `type(scope): subject`, for example `fix(compose): correct variable parsing`
+- Issues should have clear titles and descriptions, link related issues/PRs, and use appropriate labels such as `problem`, `feature`, `discussion`, or `question`.
+
+## Standard commands
+
+Standard module commands are auto-registered for all modules:
+
+- `list` - list templates
+- `search <query>` - search templates by ID
+- `show <id>` - show template details
+- `generate <id>` - generate from a template; supports `--dry-run`, `--var`, `--var-file`, `--no-interactive`, and destination options
+- `validate [template_id]` - validate one or all templates
+- `defaults` - manage config defaults with `get`, `set`, `rm`, `clear`, and `list`
+
+Core repository commands include:
+
+- `repo update` - sync git-based libraries
+- `repo list` - list configured libraries
+- `repo add` / `repo remove` - manage configured libraries
