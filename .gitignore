@@ -5,4 +5,11 @@
 # Docker Secrets, Environment Files
 **/secret.*
 **/.env
-terraform/cloudflare/*.tfvars
+
+# Terraform: local state, provider binaries, lock info and variable files with credentials
+**/.terraform/
+**/*.tfstate
+**/*.tfstate.*
+**/.terraform.tfstate.lock.info
+**/*.tfvars
+!**/*.tfvars.example
