@@ -5,7 +5,7 @@
 # A Record
 resource "cloudflare_record" "your-dns-record-name" {
     for_each = var.dns_record_name
-    zone_id = vR.cloudflare_zone_id
+    zone_id = var.cloudflare_zone_id
     name = each.value.name
     value = each.value.value
     type = each.value.type

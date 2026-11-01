@@ -54,6 +54,7 @@ exclude = [
     "build",
     "dist",
     "*.egg-info",
+    "Raspi",  # vendored Freenove Raspberry Pi kit code, not maintained here
 ]
 
 [tool.ruff.lint]
