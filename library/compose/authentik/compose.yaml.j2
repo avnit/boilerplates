@@ -75,7 +75,8 @@ services:
     {% endif %}
     {% if not database_external %}
     depends_on:
-      - {{ service_name }}_postgres
+      {{ service_name }}_postgres:
+        condition: service_healthy
     {% endif %}
 
   {#
@@ -125,7 +126,8 @@ services:
       {% endif %}
     {% if not database_external %}
     depends_on:
-      - {{ service_name }}_postgres
+      {{ service_name }}_postgres:
+        condition: service_healthy
     {% endif %}
 
   {#

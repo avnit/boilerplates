@@ -65,6 +65,11 @@ services:
       - traefik.http.routers.{{ service_name }}_https.tls.certresolver={{ traefik_tls_certresolver }}
       {% endif %}
     {% endif %}
+    {% if not database_external and database_type == "postgres" and not swarm_enabled %}
+    depends_on:
+      {{ service_name }}_db:
+        condition: service_healthy
+    {% endif %}
 
   {% if not database_external and database_type == "postgres" %}
   {{ service_name }}_db:

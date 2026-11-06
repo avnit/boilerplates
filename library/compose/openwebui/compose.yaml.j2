@@ -20,7 +20,7 @@ services:
       - OAUTH_PROVIDER_NAME=authentik
       - OPENID_PROVIDER_URL={{ openid_provider_url }}
       - OAUTH_CLIENT_ID={{ authentik_client_id }}
-      - OAUTH_CLIENT_SECRET={{ authentik_client_secret }}
+      - OAUTH_CLIENT_SECRET=${OAUTH_CLIENT_SECRET}
       - OAUTH_SCOPES={{ oauth_scopes }}
       - OPENID_REDIRECT_URI={{ openid_redirect_uri }}
       {% endif %}

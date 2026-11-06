@@ -63,7 +63,7 @@ services:
       {% if swarm_enabled -%}
       - DB_POSTGRESDB_PASSWORD_FILE=/run/secrets/{{ database_password_secret_name }}
       {% else -%}
-      - DB_POSTGRESDB_PASSWORD={{ database_password }}
+      - DB_POSTGRESDB_PASSWORD=${DATABASE_PASSWORD}
       {% endif -%}
       {% elif database_type == 'mysql' -%}
       - DB_TYPE=mysqldb
@@ -74,14 +74,14 @@ services:
       {% if swarm_enabled -%}
       - DB_MYSQLDB_PASSWORD_FILE=/run/secrets/{{ database_password_secret_name }}
       {% else -%}
-      - DB_MYSQLDB_PASSWORD={{ database_password }}
+      - DB_MYSQLDB_PASSWORD=${DATABASE_PASSWORD}
       {% endif -%}
       {% endif -%}
       {% endif -%}
       {% if swarm_enabled -%}
       - N8N_ENCRYPTION_KEY_FILE=/run/secrets/{{ encryption_key_secret_name }}
       {% else -%}
-      - N8N_ENCRYPTION_KEY={{ encryption_key }}
+      - N8N_ENCRYPTION_KEY=${N8N_ENCRYPTION_KEY}
       {% endif -%}
       {% if webhook_url -%}
       - WEBHOOK_URL={{ webhook_url }}
@@ -204,7 +204,7 @@ services:
       {% if swarm_enabled -%}
       - DB_POSTGRESDB_PASSWORD_FILE=/run/secrets/{{ database_password_secret_name }}
       {% else -%}
-      - DB_POSTGRESDB_PASSWORD={{ database_password }}
+      - DB_POSTGRESDB_PASSWORD=${DATABASE_PASSWORD}
       {% endif -%}
       {% elif database_type == 'mysql' -%}
       - DB_TYPE=mysqldb
@@ -215,14 +215,14 @@ services:
       {% if swarm_enabled -%}
       - DB_MYSQLDB_PASSWORD_FILE=/run/secrets/{{ database_password_secret_name }}
       {% else -%}
-      - DB_MYSQLDB_PASSWORD={{ database_password }}
+      - DB_MYSQLDB_PASSWORD=${DATABASE_PASSWORD}
       {% endif -%}
       {% endif -%}
       {% endif -%}
       {% if swarm_enabled -%}
       - N8N_ENCRYPTION_KEY_FILE=/run/secrets/{{ encryption_key_secret_name }}
       {% else -%}
-      - N8N_ENCRYPTION_KEY={{ encryption_key }}
+      - N8N_ENCRYPTION_KEY=${N8N_ENCRYPTION_KEY}
       {% endif -%}
       - EXECUTIONS_MODE=queue
       - QUEUE_BULL_REDIS_HOST={{ queue_redis_host }}
