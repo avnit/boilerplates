@@ -39,11 +39,23 @@ services:
       {% if environment_database_username %}
       KOMODO_DATABASE_USERNAME: "{{ environment_database_username }}"
       {% endif %}
+      {#
+        Secrets come from .env in Compose mode. `docker stack deploy` does not
+        read .env, so Swarm mode keeps the values inline.
+      #}
       {% if environment_database_password %}
+      {% if swarm_enabled %}
       KOMODO_DATABASE_PASSWORD: "{{ environment_database_password }}"
+      {% else %}
+      KOMODO_DATABASE_PASSWORD: ${KOMODO_DATABASE_PASSWORD}
+      {% endif %}
       {% endif %}
       {% if environment_jwt_secret %}
+      {% if swarm_enabled %}
       KOMODO_JWT_SECRET: "{{ environment_jwt_secret }}"
+      {% else %}
+      KOMODO_JWT_SECRET: ${KOMODO_JWT_SECRET}
+      {% endif %}
       {% endif %}
       LOG_LEVEL: "{{ environment_log_level }}"
     {% endif %}

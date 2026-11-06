@@ -71,10 +71,13 @@ services:
     {% endif %}
     depends_on:
       {% if not database_external %}
-      - {{ service_name }}_postgres
+      {{ service_name }}_postgres:
+        condition: service_healthy
       {% endif %}
-      - {{ service_name }}_redis
-      - {{ service_name }}_redis-cache
+      {{ service_name }}_redis:
+        condition: service_started
+      {{ service_name }}_redis-cache:
+        condition: service_started
 
   {{ service_name }}_worker:
     image: docker.io/netboxcommunity/netbox:v4.4.8
@@ -123,11 +126,15 @@ services:
       - {{ service_name }}_scripts:/opt/netbox/netbox/scripts
     depends_on:
       {% if not database_external %}
-      - {{ service_name }}_postgres
+      {{ service_name }}_postgres:
+        condition: service_healthy
       {% endif %}
-      - {{ service_name }}
-      - {{ service_name }}_redis
-      - {{ service_name }}_redis-cache
+      {{ service_name }}:
+        condition: service_started
+      {{ service_name }}_redis:
+        condition: service_started
+      {{ service_name }}_redis-cache:
+        condition: service_started
 
   {{ service_name }}_redis:
     image: docker.io/library/redis:8.4.0-alpine

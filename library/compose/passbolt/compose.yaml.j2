@@ -21,9 +21,10 @@ services:
     volumes:
       - {{ service_name }}-gpg:/etc/passbolt/gpg
       - {{ service_name }}-jwt:/etc/passbolt/jwt
-    command: ["/usr/bin/wait-for.sh", "-t", "0", "passbolt-db:3306", "--", "/docker-entrypoint.sh"]
+    command: ["/usr/bin/wait-for.sh", "-t", "0", "{{ service_name }}-db:3306", "--", "/docker-entrypoint.sh"]
     depends_on:
-      - {{ service_name }}-db
+      {{ service_name }}-db:
+        condition: service_healthy
 
   {{ service_name }}-db:
     image: docker.io/library/mariadb:11.3.2
@@ -33,11 +34,17 @@ services:
       - MYSQL_DATABASE=$PASSBOLT_DB_NAME
       - MYSQL_USER=$PASSBOLT_DB_USER
       - MYSQL_PASSWORD=$PASSBOLT_DB_PASS
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      start_period: 30s
+      interval: 10s
+      timeout: 10s
+      retries: 5
     volumes:
-      - passbolt-db:/var/lib/mysql
+      - {{ service_name }}-db:/var/lib/mysql
 
 
 volumes:
-  passbolt-db:
+  {{ service_name }}-db:
   {{ service_name }}-gpg:
   {{ service_name }}-jwt:

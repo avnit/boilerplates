@@ -58,7 +58,8 @@ services:
     {% endif %}
     {% if not database_external and database_type != 'sqlite' %}
     depends_on:
-      - {{ service_name }}_db
+      {{ service_name }}_db:
+        condition: service_healthy
     {% endif %}
 
   {% if not database_external and database_type == "postgres" %}
@@ -88,9 +89,15 @@ services:
       - MYSQL_USER={{ database_user }}
       - MYSQL_PASSWORD=${DATABASE_PASSWORD}
       - MYSQL_DATABASE={{ database_name }}
-      - MYSQL_ROOT_PASSWORD=${DATABASE_PASSWORD}
+      - MYSQL_RANDOM_ROOT_PASSWORD=true
     networks:
       - {{ service_name }}_backend
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "--silent"]
+      start_period: 30s
+      interval: 10s
+      timeout: 10s
+      retries: 5
     volumes:
       - {{ service_name }}_db:/var/lib/mysql
   {% endif %}
